@@ -1,0 +1,21 @@
+{
+  "name": "mirror_portrait",
+  "version": "1.0.0",
+  "description": "self-portrait visualization",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "mirror_portrait"
+  },
+  "keywords": [
+    "mirro"
+  ],
+  "author": "vio zhu",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
