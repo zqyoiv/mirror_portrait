@@ -15,6 +15,12 @@ app.get('/start_record', (req, res) => {
     res.send('Start recording signal sent to all clients');
 });
 
+
+app.get('/stop_and_play', (req, res) => {
+    io.emit('stop_and_play');
+    res.send('Stop recording and start playing signal sent to all clients');
+});
+
 io.on('connection', (socket) => {
     console.log('A user connected');
     socket.on('disconnect', () => {
