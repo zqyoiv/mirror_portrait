@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = socketIO(server);
 const cors = require('cors');
 
-const port = 3000;
+const port = process.env.PORT || 3002;
 
 app.use(cors()); 
 app.use(express.static('public'));
