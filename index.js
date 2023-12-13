@@ -5,9 +5,11 @@ const socketIO = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
+const cors = require('cors');
 
 const port = 3000;
 
+app.use(cors()); 
 app.use(express.static('public'));
 
 app.get('/start_record', (req, res) => {
