@@ -174,8 +174,8 @@ function keyPressed() {
 }
 
 function switchState() {
-    start = true;
     if (recorder.state === 'inactive') {
+      start = true;
       recordedChunks = []; // 清空之前的录制
       recorder.start();
       isRecording = true;
