@@ -44,6 +44,11 @@ function setup() {
 
   socket = io.connect(window.location.origin);
 
+  socket.on('reset', function() {
+    window.location.reload();
+    console.log('Reset by refresh page.');
+  });
+
   socket.on('start_record', function() {
     switchState();
     console.log('Start recording signal received');

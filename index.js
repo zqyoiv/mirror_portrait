@@ -12,11 +12,15 @@ const port = process.env.PORT || 3002;
 app.use(cors()); 
 app.use(express.static('public'));
 
+app.get('/reset', (req, res) => {
+    io.emit('reset');
+    res.send('Reset all recorded videos and start over.');
+});
+
 app.get('/start_record', (req, res) => {
     io.emit('start_record');
     res.send('Start recording signal sent to all clients');
 });
-
 
 app.get('/stop_and_play', (req, res) => {
     io.emit('stop_and_play');
