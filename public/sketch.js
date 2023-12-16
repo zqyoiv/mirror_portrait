@@ -54,13 +54,11 @@ function setup() {
   socket.on('start_record', function() {
     switchState();
     console.log('Start recording signal received');
-    // Add your code here to handle the start recording event
   });
 
   socket.on('stop_and_play', function() {
     switchState();
     console.log('Stop and play signal received');
-    // Add your code here to handle the start recording event
   });
 
   // switch two times to avoid weird black screen bug.
