@@ -69,10 +69,12 @@ function setup() {
 
 function avoidBlackScreenBug() {
   switchState();
-  sleep(1000).then(() => {
+  sleep(500).then(() => {
     switchState();
   });
-  background(255);
+  sleep(500).then(() => {
+    background(255);
+  });
 }
 
 function sleep(ms) {
