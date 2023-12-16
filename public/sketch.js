@@ -12,9 +12,11 @@ let video;
 let isRecording = false;
 let isPlaying = false;
 
+let switchTime = 0;
+
 function setup() {
-  cv = createCanvas(windowWidth, windowHeight)
-  cv.hide()
+  cv = createCanvas(windowWidth, windowHeight);
+  cv.hide();
   frameRate(30);
 
   let hiddenCanvas = document.getElementById('hiddenCanvas');
@@ -60,6 +62,21 @@ function setup() {
     console.log('Stop and play signal received');
     // Add your code here to handle the start recording event
   });
+
+  // switch two times to avoid weird black screen bug.
+  avoidBlackScreenBug();
+}
+
+function avoidBlackScreenBug() {
+  switchState();
+  sleep(1000).then(() => {
+    switchState();
+  });
+  background(255);
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function draw() {
@@ -120,66 +137,37 @@ function draw() {
         isPlaying = true;
         loadVideo = false;
       }
-
-    } else {
-      if(video){
+    } else { // isPlaying
+      if (video) {
         image(video, 0, 0, width, height);
       }
     }
 
-   if (isRecording) {
+    if (isRecording) {
       hiddenCanvas.style.display = 'block'; // 显示隐藏画布
-      cv.hide()
-    } else {
-      hiddenCanvas.style.display = 'none'; // 显示隐藏画布
-      cv.show()
+      cv.hide();
+    } else { // finished recording
+      if (switchTime >=2) {
+        hiddenCanvas.style.display = 'none'; // 显示隐藏画布
+        cv.show();
+      }
     }  
-  }else{
+  } else { // not Start
     hiddenCanvas.style.display = 'block'; // 显示隐藏画布
     cv.hide()
   }
   console.log("record:"+isRecording,"playing:"+isPlaying)
-  
-}
-
-function enhanceContrast(vid) {
-  const contrastFactor = (259 * (128 + 255)) / (255 * (259 - 128)); // 对比度因子
-
-  for (let i = 0; i < vid.pixels.length; i += 4) {
-    vid.pixels[i] = truncateColor(contrastFactor * (vid.pixels[i] - 128) + 128);
-    vid.pixels[i + 1] = truncateColor(contrastFactor * (vid.pixels[i + 1] - 128) + 128);
-    vid.pixels[i + 2] = truncateColor(contrastFactor * (vid.pixels[i + 2] - 128) + 128);
-  }
-}
-
-function truncateColor(value) {
-  return min(max(value, 0), 255);
 }
 
 function keyPressed() {
-
-  if (key === 'r' || key === 'R') {
-    start = true
-    // 按 P 开始播放录制的视频
-  
-    // 按 R 开始或停止录制
-    if (recorder.state === 'inactive') {
-      recordedChunks = []; // 清空之前的录制
-      recorder.start();
-      isRecording = true;
-      isPlaying = false;
-      console.log('Recording started');
-    } else {
-      recorder.stop();
-      isRecording = false;
-      console.log('Recording stopped');
-      loadVideo = true
-    }    
+  if (key === '1') {
+    switchState();
   }
 }
 
 function switchState() {
     if (recorder.state === 'inactive') {
+      switchTime += 1;
       start = true;
       recordedChunks = []; // 清空之前的录制
       recorder.start();
@@ -190,7 +178,7 @@ function switchState() {
       recorder.stop();
       isRecording = false;
       console.log('Recording stopped');
-      loadVideo = true
+      loadVideo = true;
     }
 }
 
