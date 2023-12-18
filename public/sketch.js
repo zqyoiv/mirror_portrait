@@ -139,6 +139,25 @@ function draw() {
       }
     } else { // isPlaying
       if (video) {
+        // 计算缩放比例和居中位置
+        let videoAspectRatio = capture.width / capture.height;
+        let canvasAspectRatio = width / height;
+        let renderWidth, renderHeight;
+  
+        if (canvasAspectRatio > videoAspectRatio) {
+          // 画布比视频宽，根据高度来缩放视频
+          renderHeight = height;
+          renderWidth = renderHeight * videoAspectRatio;
+        } else {
+          // 画布比视频高，根据宽度来缩放视频
+          renderWidth = width;
+          renderHeight = renderWidth / videoAspectRatio;
+        }
+  
+        // 计算视频居中显示的坐标
+        let x = (width - renderWidth) / 2;
+        let y = (height - renderHeight) / 2;
+        
         image(video, 0, 0, width, height);
       }
     }
